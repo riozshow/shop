@@ -1,0 +1,35 @@
+@import '../../../style/settings.scss';
+
+.nav {
+  border-bottom: 1px solid $color-line;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: $color-background;
+}
+
+.wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1080px;
+  margin: auto;
+
+  h4 {
+    padding: 1rem 0;
+    cursor: pointer;
+    color: $color-3;
+    font-weight: 800;
+  }
+
+  ul {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    li {
+      text-transform: capitalize;
+    }
+  }
+}

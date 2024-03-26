@@ -1,0 +1,63 @@
+@import '../../../style/settings.scss';
+
+@keyframes bg-animation {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+  }
+}
+
+.container {
+  position: fixed;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: 1s bg-animation forwards;
+
+  .box {
+    border-radius: 7px;
+    position: relative;
+    @extend .defaultAnimation;
+    min-width: 330px;
+    background-color: $color-background;
+    overflow: hidden;
+
+    box-shadow:
+      rgba(17, 17, 26, 0.1) 0px 8px 24px,
+      rgba(17, 17, 26, 0.1) 0px 16px 56px,
+      rgba(17, 17, 26, 0.1) 0px 24px 80px;
+
+    border: 1px solid $color-line;
+
+    .topBar {
+      display: flex;
+      padding: 0.75rem;
+      padding-top: 0.5rem;
+      padding-left: 1rem;
+      align-items: center;
+      border-bottom: 1px solid $color-line;
+
+      h5 {
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
+
+    .content {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      background-color: $color-background;
+    }
+  }
+}

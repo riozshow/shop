@@ -1,0 +1,13 @@
+@import '../../../../../style/settings.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  ul {
+    li {
+      padding: 1rem;
+    }
+  }
+}

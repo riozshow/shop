@@ -1,0 +1,256 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema 
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  WAITING_FOR_PAYMENT
+  PENDING
+  IN_PROGRESS
+  SENT
+  DONE
+  CANCELED
+}
+
+enum PaymentStatus {
+  UNPAYED
+  PAYED
+}
+
+enum Roles {
+  USER
+  ADMIN
+}
+
+model User {
+  id    String @id @default(uuid())
+  email String @unique
+  name  String
+  role  Roles  @default(USER)
+  phone Int?
+
+  Password     Password?
+  Orders       Order[]
+  Addresses    Address[]
+  CouponOnUser CouponOnUser[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Password {
+  id             String @id @default(uuid())
+  hashedPassword String
+  userId         String @unique
+  User           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id   String @id
+  sid  String @unique
+  data String @db.VarChar(1000)
+
+  expiresAt DateTime
+}
+
+model Address {
+  id         String @id @default(uuid())
+  street     String
+  number     String
+  postalCode String
+  city       String
+  userId     String
+
+  User   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Orders Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  status       OrderStatus @default(WAITING_FOR_PAYMENT)
+  message      String?     @db.VarChar(1000)
+  userId       String?
+  addressId    String?
+  paymentId    String?     @unique
+  orderAddress String
+
+  User     User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  Payment  Payment?         @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  Products ProductOnOrder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Address   Address? @relation(fields: [addressId], references: [id])
+}
+
+model Payment {
+  id     String        @id @default(uuid())
+  status PaymentStatus @default(UNPAYED)
+  amount Float
+
+  Order Order?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductOnOrder {
+  productId String
+  orderId   String
+  message   String? @db.VarChar(1000)
+  cost      Float
+  amount    Int
+  discount  Int
+
+  Product Product @relation(fields: [productId], references: [id])
+  Order   Order   @relation(fields: [orderId], references: [id])
+
+  @@id([productId, orderId])
+}
+
+model Product {
+  id          String @id @default(uuid())
+  name        String
+  price       Float
+  description String @db.VarChar(1000)
+  categoryId  String
+
+  Category Category         @relation(fields: [categoryId], references: [id])
+  Orders   ProductOnOrder[]
+  Tags     TagOnProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  DiscountOnProduct DiscountOnProduct[]
+  CouponOnProduct   CouponOnProduct[]
+  Images            Image[]
+}
+
+model Category {
+  id         String  @id @default(uuid())
+  name       String  @unique
+  discountId String?
+  couponId   String?
+
+  Products           Product[]
+  CouponOnCategory   CouponOnCategory[]
+  DiscountOnCategory DiscountOnCategory[]
+  Images             Image[]
+}
+
+model Discount {
+  id          String   @id @default(uuid())
+  expires     DateTime
+  percent     Int
+  description String?
+
+  DiscountOnProduct  DiscountOnProduct[]
+  DiscountOnCategory DiscountOnCategory[]
+  Images             Image[]
+}
+
+model DiscountOnProduct {
+  discountId String
+  productId  String
+
+  Product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  Discount Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+
+  @@id([productId, discountId])
+}
+
+model DiscountOnCategory {
+  discountId String
+  categoryId String
+
+  Category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Discount Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+
+  @@id([categoryId, discountId])
+}
+
+model Coupon {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  percent     Int
+  expires     DateTime
+  description String?
+  isPublic    Boolean  @default(false)
+
+  CouponOnUser     CouponOnUser[]
+  CouponOnProduct  CouponOnProduct[]
+  CouponOnCategory CouponOnCategory[]
+  Images           Image[]
+}
+
+model CouponOnProduct {
+  productId String
+  couponId  String
+
+  Coupon  Coupon  @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  Product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([couponId, productId])
+}
+
+model CouponOnCategory {
+  categoryId String
+  couponId   String
+
+  Coupon   Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  Category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([couponId, categoryId])
+}
+
+model CouponOnUser {
+  userId   String
+  couponId String
+
+  Coupon Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([couponId, userId])
+}
+
+model Tag {
+  name     String         @id @unique
+  Products TagOnProduct[]
+}
+
+model TagOnProduct {
+  name      String @id
+  productId String
+
+  Tag     Tag     @relation(fields: [name], references: [name])
+  Product Product @relation(fields: [productId], references: [id])
+}
+
+model Image {
+  id String @id @unique @default(uuid())
+
+  productId  String?
+  couponId   String?
+  discountId String?
+  categoryId String?
+  isDefault  Boolean?
+
+  Product  Product?  @relation(fields: [productId], references: [id])
+  Discount Discount? @relation(fields: [discountId], references: [id])
+  Coupon   Coupon?   @relation(fields: [couponId], references: [id])
+  Category Category? @relation(fields: [categoryId], references: [id])
+}

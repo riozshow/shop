@@ -1,0 +1,24 @@
+@import '../../../style/settings.scss';
+
+.container {
+  align-items: start;
+  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.5rem;
+
+  &:hover {
+    background-color: white;
+  }
+
+  i {
+    color: green;
+    font-size: 46px;
+  }
+
+  input {
+    width: 100%;
+    flex: 1 1 auto;
+    border-bottom: 1px solid $color-line !important;
+  }
+}

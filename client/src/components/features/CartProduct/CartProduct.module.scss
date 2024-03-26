@@ -1,0 +1,33 @@
+@import '../../../style/settings.scss';
+
+.container {
+  display: flex;
+  padding: 0.5rem;
+  background-color: white;
+  width: 100%;
+  gap: 0.5rem;
+
+  .infoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 1;
+    overflow: hidden;
+    width: 100%;
+
+    p {
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size: 14px !important;
+    }
+
+    input {
+      border-bottom: 1px solid $color-line !important;
+    }
+  }
+
+  h5 {
+    font-size: 14px;
+  }
+}

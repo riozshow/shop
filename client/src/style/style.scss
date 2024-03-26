@@ -1,0 +1,202 @@
+@import './settings.scss';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+ul,
+a {
+  text-decoration: none;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: $color-font-button;
+}
+
+html,
+body,
+#root {
+  color: $color-font-button;
+  background-color: $color-background;
+  margin: 0;
+  padding: 0;
+  font-family: 'Comme', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+button {
+  border: none;
+  border-radius: 7px;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  color: $color-font-button;
+
+  transition: background-color 0.3s;
+
+  box-shadow:
+    rgba(50, 50, 93, 0.15) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.2) 0px 1px 3px -1px;
+
+  &:hover {
+    background-color: lighten($color-line, 5%);
+  }
+
+  &.primary {
+    background-color: $color-3;
+    color: white;
+
+    &:hover {
+      background-color: lighten($color-3, 15%);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  border-radius: 7px;
+  list-style-type: none;
+  box-shadow:
+    rgba(50, 50, 93, 0.15) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.2) 0px 1px 3px -1px;
+  background-color: lighten($color-line, 8%);
+
+  gap: 1px;
+  overflow: hidden;
+
+  li {
+    cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+
+    color: $color-font-button;
+    font-size: 14px;
+    font-weight: 400;
+
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: lighten($color-line, 8%);
+    }
+
+    &.secondary {
+      color: $color-3;
+      font-weight: 500;
+      &:hover {
+        background-color: lighten($color-3, 60%);
+      }
+    }
+
+    &.selected {
+      background-color: $color-line;
+    }
+
+    &.primary {
+      background-color: rgba($color-3, 75%);
+      color: white;
+
+      &:hover {
+        background-color: lighten($color-3, 15%);
+      }
+    }
+  }
+}
+
+a[class='active'] {
+  li {
+    background-color: lighten($color-7, 40%);
+  }
+}
+
+li.active {
+  background-color: lighten($color-7, 40%);
+}
+
+.customBadge {
+  color: white;
+  padding: 5px;
+  border-radius: 7px;
+  font-weight: 800;
+
+  background-color: $color-1;
+}
+
+.list-wrapper {
+  padding: 10px;
+  overflow: hidden;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px !important;
+
+  h5 {
+    text-align: center;
+    border-radius: 7px;
+    background-color: $color-8;
+    background-color: white;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba($color-font-button, 100%);
+    padding: 0.5rem;
+    box-shadow:
+      rgba(50, 50, 93, 0.15) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.2) 0px 1px 3px -1px;
+  }
+}
+
+input,
+textarea,
+select {
+  padding: 0.5rem;
+  border: none !important;
+  outline: none !important;
+  border-radius: 7px;
+  color: rgba($color-font-button, 100%);
+
+  &.valid {
+    font-weight: 500;
+    color: green;
+  }
+
+  &::placeholder {
+    color: rgba($color-font-button, 75%);
+  }
+}
+
+label {
+  font-size: 13px;
+}
+
+.form-wrapper {
+  border-radius: 7px;
+  padding: 0.5rem;
+  background-color: lighten($color-line, 8%);
+}

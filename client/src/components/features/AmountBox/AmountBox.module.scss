@@ -1,0 +1,13 @@
+@import '../../../style/settings.scss';
+
+.container {
+  display: flex;
+  align-self: center;
+  border: 1px solid $color-line;
+  flex-shrink: 0;
+
+  li {
+    font-weight: 500;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,14 @@
+.container {
+  gap: 1rem;
+  padding: 1rem;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+
+    li {
+      padding: 1rem;
+    }
+  }
+}

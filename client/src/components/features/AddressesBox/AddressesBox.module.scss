@@ -1,0 +1,56 @@
+@import '../../../style/settings.scss';
+
+.container {
+  display: flex;
+  gap: 1rem;
+
+  & > :nth-child(1) {
+    width: 40%;
+  }
+
+  & > :nth-child(2) {
+    width: 60%;
+  }
+
+  .addressList {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    align-self: flex-start;
+
+    i {
+      color: green;
+      font-size: 34px;
+    }
+
+    li {
+      h5 {
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 0.5rem;
+      padding: 1rem;
+
+      &.add {
+        flex-grow: 0;
+        padding: 0.5rem;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .addressDetails {
+    li {
+      padding: 2rem;
+    }
+
+    width: 100%;
+    align-self: start;
+  }
+}

@@ -1,0 +1,52 @@
+@import '../../../style/settings.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+
+  .noImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 7px;
+    background-color: rgba($color-7, 10%);
+    font-size: 100px;
+    overflow: hidden;
+
+    i {
+      color: white;
+    }
+  }
+
+  .mainImage {
+    border-radius: 7px;
+    aspect-ratio: 1/1;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .thumbnails {
+    gap: 5px;
+    display: flex;
+    flex-wrap: wrap;
+
+    img {
+      opacity: 0.7;
+      border-radius: 7px;
+      width: calc(25% - 5px);
+      aspect-ratio: 1/1;
+      cursor: pointer;
+
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

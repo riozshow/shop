@@ -1,0 +1,35 @@
+@import '../../../style/settings.scss';
+
+.container {
+  display: flex;
+  background-image: linear-gradient(to right, $color-9, $color-5);
+  padding: 1rem;
+  color: white;
+  border-radius: 7px;
+
+  h3 {
+    background-color: $color-1;
+    padding: 0.5rem;
+    border-radius: 7px;
+    font-weight: 700;
+    align-items: center;
+    display: flex;
+  }
+
+  .infoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+
+    p {
+      font-weight: 600;
+    }
+
+    h4 {
+      margin: auto;
+      font-weight: 700;
+      padding: 0.5rem;
+    }
+  }
+}
