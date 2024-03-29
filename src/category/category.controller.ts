@@ -7,7 +7,7 @@ import {
   Delete,
   Post,
   Body,
-  Put,
+  Patch,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { AdminGuard } from 'src/auth/admin.guard';
@@ -34,7 +34,7 @@ export class CategoryController {
   }
 
   @UseGuards(AdminGuard)
-  @Put(':id')
+  @Patch(':id')
   updateCategory(
     @Param('id', new ParseUUIDPipe()) id,
     @Body() body: UpdateCategoryDTO,

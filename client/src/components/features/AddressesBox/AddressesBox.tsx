@@ -34,7 +34,7 @@ function AddressesBox() {
     }
   }, [user]);
 
-  if (!user?.id) return <></>;
+  if (!user) return <></>;
 
   return (
     <>

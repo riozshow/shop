@@ -5,25 +5,17 @@ import { useEffect } from 'react';
 import { useAddAddress, useEditAddress } from '../../store/addressesSlice';
 import { validators } from '../../utils/validators';
 import { AddressItemType } from '../features/AddressItem/AddressItem';
+import { FormProps, withForm } from '../HOC/withForm';
 
-function AddAddress({ address }: { address?: AddressItemType }) {
+function AddAddress({
+  address,
+  field,
+  form,
+  isCorrect,
+  isAllCorrect,
+}: { address?: AddressItemType } & FormProps) {
   const { addAddress, isSuccess: isSuccessAdd } = useAddAddress();
   const { editAddress, isSuccess: isSuccessEdit } = useEditAddress();
-
-  const { field, form, isCorrect, isAllCorrect } = useForm({
-    initialValues: address || {
-      street: '',
-      number: '',
-      postalCode: '',
-      city: '',
-    },
-    filters: {
-      street: validators.street,
-      number: validators.number,
-      postalCode: validators.postalCode,
-      city: validators.city,
-    },
-  });
 
   useEffect(() => {
     if (isSuccessAdd || isSuccessEdit) closeModal();
@@ -67,4 +59,9 @@ function AddAddress({ address }: { address?: AddressItemType }) {
   );
 }
 
-export default AddAddress;
+export default withForm(AddAddress, {
+  street: validators.street,
+  number: validators.number,
+  postalCode: validators.postalCode,
+  city: validators.city,
+});

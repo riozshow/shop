@@ -2,9 +2,10 @@ import { useGetProductsByIds } from '../store/productsSlice';
 import { useEffect, useState } from 'react';
 import { getDiscount } from '../utils/getDiscount';
 import { useGetDiscounts } from '../store/discountsSlice';
+import { OrderProduct } from '../api/dtos';
 
 function useCartSumarize(
-  cart: Array<{ productId: string; amount: number }>,
+  cart: OrderProduct[],
   couponDiscounts?: Array<{ id: string; discount: number }>,
 ) {
   const { data: discounts } = useGetDiscounts();
@@ -15,7 +16,7 @@ function useCartSumarize(
   }>({ totalPrice: 0, totalDiscount: 0 });
 
   const { data: products } = useGetProductsByIds({
-    select: cart.map((p: any) => p.productId),
+    select: cart.map((p: any) => p.id),
   });
 
   useEffect(() => {
@@ -23,7 +24,7 @@ function useCartSumarize(
     let totalDiscount = 0;
 
     for (const cartProduct of cart) {
-      const product = products.find((p: any) => p.id === cartProduct.productId);
+      const product = products.find((p: any) => p.id === cartProduct.id);
       if (product) {
         const productCost = product.price * cartProduct.amount;
         totalPrice += productCost;

@@ -1,15 +1,14 @@
 import { API } from '../api/api';
 import { Product } from '../components/features/ProductItem/ProductItem';
 import { createStoreHandler } from './StoreHandler/createStoreHandler';
-import { SliceSchema } from './StoreHandler/createStoreHandler';
 
-const products: SliceSchema = {
+const products = {
   name: 'products',
   initialState: {
     all: [],
     topSellers: [],
   },
-  queries: {
+  actions: {
     getByCategory: {
       caller: (categoryId: string) => API.products.getByCategoryId(categoryId),
       selector: (state: any, categoryId: string) =>
@@ -34,17 +33,6 @@ const products: SliceSchema = {
         return state;
       },
     },
-    getFullProductById: {
-      caller: (productId: string) => API.products.getById(productId),
-      selector: (state: any, productId: string) =>
-        state.products.all.find((p: any) => p.id === productId && p.Category),
-      reducer: (state: any, action: { payload: any }) => {
-        const product = action.payload;
-        state.all = state.all.filter((p: any) => p.id !== product.id);
-        state.all.push(product);
-        return state;
-      },
-    },
     getProductsByIds: {
       selector: (state: any, productIds: Array<string>) => {
         return state.products.all.filter((p: any) => productIds.includes(p.id));
@@ -57,9 +45,6 @@ const products: SliceSchema = {
         state.topSellers.push(...action.payload);
       },
     },
-  },
-
-  mutations: {
     createProduct: {
       caller: (form: any) => API.products.create(form),
       reducer: (state: any, action: { payload: any }) => {
@@ -93,7 +78,6 @@ export const {
   useGetByCategory,
   useGetById,
   useGetTopSellers,
-  useGetFullProductById,
   useGetProductsByIds,
   useCreateProduct,
   useUpdateProduct,

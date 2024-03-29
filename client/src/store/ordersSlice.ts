@@ -1,15 +1,12 @@
-import {
-  SliceSchema,
-  createStoreHandler,
-} from './StoreHandler/createStoreHandler';
+import { createStoreHandler } from './StoreHandler/createStoreHandler';
 import { API } from '../api/api';
 
-const orders: SliceSchema = {
+const orders = {
   name: 'orders',
   initialState: [],
-  queries: {
+  actions: {
     getOrders: {
-      caller: API.orders.getAll,
+      caller: API.orders.read,
     },
     getByPaymentId: {
       caller: (paymentId: string) => API.orders.getByPaymentId(paymentId),
@@ -19,8 +16,6 @@ const orders: SliceSchema = {
         state.push(action.payload);
       },
     },
-  },
-  mutations: {
     createOrder: {
       caller: (order: any) => API.orders.create(order),
       reducer: (state: any, action: { payload: any }) => {

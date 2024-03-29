@@ -6,23 +6,20 @@ import useCartSumarize from '../../../../hooks/useCartSumarize';
 import { currencyConvert } from '../../../../utils/currencyConvert';
 import { useNavigate } from 'react-router';
 
-function CartDropdown({ show, close }: { show: boolean; close: Function }) {
+function CartDropdown({ close }: { close: Function }) {
+  const { data: cart } = useGetCart();
+  const { totalPrice, totalDiscount } = useCartSumarize(cart);
   const navigate = useNavigate();
   const lockClick = (e: SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const { data: cart } = useGetCart();
-  const { totalPrice, totalDiscount } = useCartSumarize(cart);
-
-  if (!show) return <></>;
-
   return (
     <div onClick={lockClick} className={styles.container}>
       <ul className="m-0 flex-column">
         {cart.map((product: any) => (
-          <CartProduct key={product.productId} {...product} />
+          <CartProduct key={product.id} {...product} />
         ))}
         {cart.length === 0 && <div className="p-4 opacity-50">No products</div>}
       </ul>

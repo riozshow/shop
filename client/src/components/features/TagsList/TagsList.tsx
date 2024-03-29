@@ -9,9 +9,11 @@ function TagsList() {
   const { categoryId } = useParams();
 
   useEffect(() => {
-    API.tags
-      .getByCategory(categoryId)
-      .then(({ data }: { data: TagItemType[] }) => setTags(data));
+    if (categoryId) {
+      API.tags
+        .getByCategoryId(categoryId)
+        .then(({ data }: { data: TagItemType[] }) => setTags(data));
+    }
   }, [categoryId]);
 
   return (

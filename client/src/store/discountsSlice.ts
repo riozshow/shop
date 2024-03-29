@@ -1,18 +1,13 @@
-import {
-  SliceSchema,
-  createStoreHandler,
-} from './StoreHandler/createStoreHandler';
+import { createStoreHandler } from './StoreHandler/createStoreHandler';
 import { API } from '../api/api';
 
-const discounts: SliceSchema = {
+const discounts = {
   name: 'discounts',
   initialState: [],
-  queries: {
+  actions: {
     getDiscounts: {
-      caller: API.discounts.getAll,
+      caller: API.discounts.read,
     },
-  },
-  mutations: {
     createDiscount: {
       caller: (form: any) => API.discounts.create(form),
       reducer: (state: any, action: { payload: any }) => {

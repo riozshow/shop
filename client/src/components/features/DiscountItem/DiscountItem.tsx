@@ -36,6 +36,7 @@ function DiscountItem({
   useEffect(loadTargets, []);
 
   if (isFinish) return <></>;
+
   return (
     <div className={styles.container}>
       <h3>- {percent}%</h3>

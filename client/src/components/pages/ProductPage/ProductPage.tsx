@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { useGetFullProductById } from '../../../store/productsSlice';
+import { useGetById } from '../../../store/productsSlice';
 import PageLayout from '../../layout/PageLayout/PageLayout';
 import AmountBox from '../../features/AmountBox/AmountBox';
 import styles from './ProductPage.module.scss';
@@ -10,7 +10,7 @@ import ImageGallery from '../../features/ImageGallery/ImageGallery';
 function ProductPage() {
   const { productId } = useParams();
 
-  const { data: product } = useGetFullProductById({
+  const { data: product } = useGetById({
     select: productId,
     callOnMount: true,
   });

@@ -10,10 +10,16 @@ export const getDiscount = ({ categoryId, product }: GetDiscount) => {
 
   let totalDiscount = 0;
 
+  const dateFilter = (date: string) => {
+    return new Date(date).getTime() > Date.now();
+  };
+
   const getByCategoryId = (categoryId: string) => {
     return discounts
       .filter((d) =>
-        d.DiscountOnCategory.some((dc: any) => dc.categoryId === categoryId),
+        d.DiscountOnCategory.some(
+          (dc: any) => dateFilter(dc) && dc.categoryId === categoryId,
+        ),
       )
       .reduce(
         (percent: number, discount: any) => (percent += discount.percent),
@@ -24,7 +30,9 @@ export const getDiscount = ({ categoryId, product }: GetDiscount) => {
   const getByProductId = (productId: string) => {
     return discounts
       .filter((d) =>
-        d.DiscountOnProduct.some((dc: any) => dc.productId === productId),
+        d.DiscountOnProduct.some(
+          (dc: any) => dateFilter(dc) && dc.productId === productId,
+        ),
       )
       .reduce(
         (percent: number, discount: any) => (percent += discount.percent),

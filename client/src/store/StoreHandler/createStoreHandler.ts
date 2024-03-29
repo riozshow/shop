@@ -1,24 +1,38 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { Reducer, createSlice } from '@reduxjs/toolkit';
 import { createHook } from './createHook';
 
-export type SliceSchema = {
-  name: string;
+type Actions = {
+  [key: string]: {
+    caller?: (...args: any[]) => any;
+    reducer?: (...args: any[]) => any;
+    selector?: (...args: any[]) => any;
+  };
+};
+
+type ReducerName<T extends string> = `${T}Reducer`;
+
+type HookName<T extends string> = `use${Capitalize<T>}`;
+type Hook = (...args: any[]) => any;
+
+type StoreHandler<T extends string, U> = Record<ReducerName<T>, Reducer> &
+  Record<HookName<Extract<keyof U, string>>, Hook>;
+
+export type SliceSchema<T, U> = {
+  name: T;
+  actions: U;
   initialState?: any;
-  queries: { [key: string]: any };
-  mutations?: { [key: string]: any };
 };
 
 const defaultReducer = (state: any, action: { payload: any }) => action.payload;
 const defaultSelector = (name: string) => (state: any) => state[name];
 
-export function createStoreHandler(Schema: SliceSchema) {
-  const name = Schema.name;
-  const initialState = Schema.initialState || {};
+export function createStoreHandler<T extends string, U extends Actions>(
+  Schema: SliceSchema<T, U>,
+): StoreHandler<T, U> {
+  const { name, initialState = null, actions } = Schema;
 
   const reducers: { [key: string]: any } = {};
   const hooks: { [key: string]: any } = {};
-
-  const actions = { ...Schema.queries, ...Schema.mutations };
 
   const hooksData: { [key: string]: any } = {};
 
@@ -47,5 +61,5 @@ export function createStoreHandler(Schema: SliceSchema) {
     [name + 'Reducer']: slice.reducer,
   };
 
-  return result;
+  return result as any;
 }

@@ -1,22 +1,17 @@
-import {
-  SliceSchema,
-  createStoreHandler,
-} from './StoreHandler/createStoreHandler';
+import { createStoreHandler } from './StoreHandler/createStoreHandler';
 import { API } from '../api/api';
 
-const categories: SliceSchema = {
+const categories = {
   name: 'categories',
   initialState: [],
-  queries: {
+  actions: {
     getCategories: {
-      caller: API.categories.getAll,
+      caller: API.categories.read,
     },
     getById: {
       selector: (state: any, categoryId: string) =>
         state.categories.find((c: any) => c.id === categoryId),
     },
-  },
-  mutations: {
     createCategory: {
       caller: (form: any) => API.categories.create(form),
       reducer: (state: any, action: { payload: any }) => {
@@ -45,9 +40,9 @@ const categories: SliceSchema = {
 };
 
 export const {
-  useGetCategories,
   categoriesReducer,
   useGetById,
+  useGetCategories,
   useCreateCategory,
   useUpdateCategory,
   useDeleteCategory,

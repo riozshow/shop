@@ -1,25 +1,20 @@
 import { loadLocalStorage } from '../utils/localStorage';
-import {
-  SliceSchema,
-  createStoreHandler,
-} from './StoreHandler/createStoreHandler';
+import { createStoreHandler } from './StoreHandler/createStoreHandler';
 
 export enum PRODUCT_VIEW {
   BLOCK,
   LIST,
 }
 
-const settings: SliceSchema = {
+const settings = {
   name: 'settings',
   initialState: loadLocalStorage('settings') || {
     productsView: PRODUCT_VIEW.BLOCK,
   },
-  queries: {
+  actions: {
     getProductsView: {
       selector: (state: any) => state.settings.productsView,
     },
-  },
-  mutations: {
     setProductsView: {
       reducer: (state: any, action: { payload: PRODUCT_VIEW }) => {
         state.productsView = action.payload;

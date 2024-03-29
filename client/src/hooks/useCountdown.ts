@@ -10,7 +10,9 @@ function useCountdown() {
         setTimeRemain((time) => (time -= 1000));
       }, 1000);
       return () => clearInterval(timer);
-    } else if (timeRemain === 0) {
+    }
+
+    if (timeRemain < 1) {
       setIsFinish(true);
     }
   }, [timeRemain]);

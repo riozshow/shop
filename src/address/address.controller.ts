@@ -6,7 +6,7 @@ import {
   Delete,
   Param,
   ParseUUIDPipe,
-  Put,
+  Patch,
   Post,
   Body,
 } from '@nestjs/common';
@@ -47,7 +47,7 @@ export class AddressController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Put(':id')
+  @Patch(':id')
   updateAddress(
     @Param('id', new ParseUUIDPipe()) id,
     @Session() session,

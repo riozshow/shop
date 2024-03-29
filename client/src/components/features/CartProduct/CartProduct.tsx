@@ -6,7 +6,7 @@ import { currencyConvert } from '../../../utils/currencyConvert';
 import { useSetProductMessage } from '../../../store/cartSlice';
 
 type CartProduct = {
-  productId: string;
+  id: string;
   amount: number;
   couponDiscount: number;
   message: string;
@@ -14,14 +14,14 @@ type CartProduct = {
 };
 
 function CartProduct({
-  productId,
+  id,
   amount,
   message = '',
   showMessage,
   couponDiscount = 0,
 }: CartProduct) {
   const { data: product } = useGetById({
-    select: productId,
+    select: id,
     callOnMount: true,
   });
 
@@ -45,16 +45,14 @@ function CartProduct({
         {showMessage && (
           <input
             value={message}
-            onChange={(e) =>
-              setProductMessage({ id: productId, message: e.target.value })
-            }
+            onChange={(e) => setProductMessage({ id, message: e.target.value })}
             style={{ fontSize: '14px' }}
             placeholder="Message..."
           />
         )}
       </div>
       <div className="ms-auto d-flex align-items-center">
-        <AmountBox noIcon={true} productId={productId} />
+        <AmountBox noIcon={true} productId={id} />
       </div>
     </div>
   );

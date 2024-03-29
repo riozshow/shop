@@ -1,26 +1,38 @@
 import { API } from '../api/api';
-import { SliceSchema } from './StoreHandler/createStoreHandler';
 import { createStoreHandler } from './StoreHandler/createStoreHandler';
 
-const user: SliceSchema = {
+export enum Roles {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
+
+type User = {
+  id: string;
+  email: string;
+  name: string;
+  role: Roles;
+  phone?: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+const user = {
   name: 'user',
-  queries: {
+  actions: {
     loggedUser: {
-      selector: (state: any) => (state.user.id ? state.user : null),
       caller: API.user.getProfile,
+      selector: (state: { user: User }) => state.user,
     },
-  },
-  mutations: {
     login: {
       caller: API.auth.login,
     },
     logout: {
-      reducer: () => ({}),
+      reducer: () => null,
       caller: API.auth.logout,
     },
     register: {
-      reducer: (state: any) => state,
       caller: (form: any) => API.auth.register(form),
+      reducer: () => null,
     },
   },
 };

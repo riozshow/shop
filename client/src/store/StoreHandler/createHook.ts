@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
 import type { RootState, AppDispatch } from '../store';
-
 import { Selector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Store } from '@reduxjs/toolkit';
@@ -44,6 +43,7 @@ export function createHook({
     let onSuccess = (data: any) => {};
 
     const call = async (data: any = select) => {
+      if (!caller) return;
       setIsLoading(true);
       await caller(data)
         .then(({ data }: { data: any }) => {
@@ -74,7 +74,7 @@ export function createHook({
       [query]: caller
         ? call
         : (data: any) => dispatch(reducer(modify ? modify : data)),
-      onSuccess: (cb: any) => (onSuccess = cb),
+      onSuccess: (cb: (data: any) => any) => (onSuccess = cb),
     };
   };
 }

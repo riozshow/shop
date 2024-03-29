@@ -45,11 +45,7 @@ function CheckoutPage() {
   const handleOrder = () => {
     createOrder({
       addressId: address?.id,
-      products: cart.map((p: any) => ({
-        id: p.productId,
-        amount: p.amount,
-        message: p.message,
-      })),
+      products: cart,
       couponName,
       message,
     });
@@ -61,9 +57,9 @@ function CheckoutPage() {
       <ul>
         {cart.map((cartProduct: CartProduct) => (
           <CartProduct
-            key={cartProduct.productId}
+            key={cartProduct.id}
             {...cartProduct}
-            couponDiscount={getCouponDiscount(cartProduct.productId)}
+            couponDiscount={getCouponDiscount(cartProduct.id)}
             showMessage={true}
           />
         ))}

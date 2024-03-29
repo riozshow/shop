@@ -1,7 +1,4 @@
-import {
-  SliceSchema,
-  createStoreHandler,
-} from './StoreHandler/createStoreHandler';
+import { createStoreHandler } from './StoreHandler/createStoreHandler';
 import { API } from '../api/api';
 import {
   deleteLocalStorage,
@@ -9,15 +6,15 @@ import {
   saveLocalStorage,
 } from '../utils/localStorage';
 
-const addresses: SliceSchema = {
+const addresses = {
   name: 'addresses',
   initialState: {
     addresses: [],
     defaultAddress: loadLocalStorage('defaultAddress'),
   },
-  queries: {
+  actions: {
     getAddresses: {
-      caller: API.addresses.getAll,
+      caller: API.addresses.read,
       reducer: (
         state: any,
         action: { payload: Array<{ id: string; isDefault?: boolean }> },
@@ -35,8 +32,6 @@ const addresses: SliceSchema = {
           (a: any) => a.id === state.addresses.defaultAddress,
         ),
     },
-  },
-  mutations: {
     setDefault: {
       reducer: (state: any, action: { payload: any }) => {
         state.defaultAddress = action.payload.id;
@@ -51,7 +46,7 @@ const addresses: SliceSchema = {
       },
     },
     editAddress: {
-      caller: API.addresses.edit,
+      caller: API.addresses.update,
       reducer: (state: any, action: { payload: { id: string } }) => {
         state.addresses = state.addresses.filter(
           (a: any) => a.id !== action.payload.id,

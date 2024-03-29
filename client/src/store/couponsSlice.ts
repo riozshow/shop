@@ -1,18 +1,13 @@
-import {
-  SliceSchema,
-  createStoreHandler,
-} from './StoreHandler/createStoreHandler';
+import { createStoreHandler } from './StoreHandler/createStoreHandler';
 import { API } from '../api/api';
 
-const coupons: SliceSchema = {
+const coupons = {
   name: 'coupons',
   initialState: [],
-  queries: {
+  actions: {
     getCoupons: {
-      caller: API.coupons.getAll,
+      caller: API.coupons.read,
     },
-  },
-  mutations: {
     createCoupon: {
       caller: (form: any) => API.coupons.create(form),
       reducer: (state: any, action: { payload: any }) => {
@@ -42,8 +37,8 @@ const coupons: SliceSchema = {
 };
 
 export const {
-  useGetCoupons,
   couponsReducer,
+  useGetCoupons,
   useCreateCoupon,
   useUpdateCoupon,
   useDeleteCoupon,
