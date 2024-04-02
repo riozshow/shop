@@ -17,7 +17,6 @@ async function bootstrap() {
   await app.enableShutdownHooks();
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
-  //await app.setGlobalPrefix('api', { exclude: ['/'] });
   const prisma = new PrismaClient();
   const configService = app.get(ConfigService);
   app.use(
@@ -25,7 +24,7 @@ async function bootstrap() {
       cookie: {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       },
-      secret: configService.get('session'),
+      secret: configService.get('SESSION'),
       resave: true,
       saveUninitialized: true,
       store: new PrismaSessionStore(prisma, {
