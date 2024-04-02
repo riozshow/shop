@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module';
@@ -14,11 +12,16 @@ import { DiscountsModule } from './discounts/discounts.module';
 import { CouponsModule } from './coupons/coupons.module';
 import { PaymentsModule } from './payments/payments.module';
 import { ImagesModule } from './images/images.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import configuration from './config/configuration';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [configuration] }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../', 'client', 'build'),
+    }),
     AuthModule,
     DbModule,
     UsersModule,
@@ -32,7 +35,5 @@ import configuration from './config/configuration';
     PaymentsModule,
     ImagesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

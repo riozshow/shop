@@ -6,7 +6,7 @@ import { Id, Form } from './generateCRUD';
 import { RegisterUser, LoginUser, Order, OrderProduct } from './dtos';
 
 export const api = axios.create({
-  baseURL: ORIGIN + 'api/',
+  baseURL: ORIGIN,
   withCredentials: true,
 });
 

@@ -17,7 +17,7 @@ async function bootstrap() {
   await app.enableShutdownHooks();
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
-  await app.setGlobalPrefix('api', { exclude: ['/'] });
+  //await app.setGlobalPrefix('api', { exclude: ['/'] });
   const prisma = new PrismaClient();
   const configService = app.get(ConfigService);
   app.use(

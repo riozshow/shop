@@ -145,6 +145,14 @@ const tagsOnProduct = [
 
 async function seed() {
   await Promise.all(
+    categories.map((category) => db.category.create({ data: category })),
+  );
+
+  await Promise.all(
+    products.map((product) => db.product.create({ data: product })),
+  );
+
+  await Promise.all(
     coupons.map((coupon) =>
       db.coupon.create({
         data: {
@@ -163,19 +171,11 @@ async function seed() {
   );
 
   await Promise.all(
-    categories.map((category) => db.category.create({ data: category })),
-  );
-
-  await Promise.all(
     discounts.map((discount) => db.discount.create({ data: discount })),
   );
 
   await Promise.all(
     discountsOnCategory.map((dc) => db.discountOnCategory.create({ data: dc })),
-  );
-
-  await Promise.all(
-    products.map((product) => db.product.create({ data: product })),
   );
 
   await Promise.all(tags.map((tag) => db.tag.create({ data: tag })));
