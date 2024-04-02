@@ -200,13 +200,12 @@ export class ProductService {
 
   async delete(id: Product['id']) {
     try {
-      const product = await this.db.product.delete({
-        where: { id },
-        include: { Images: true },
-      });
+      const product = await this.db.product.delete({ where: { id } });
+
+      const images = await this.db.image.findMany({ where: { productId: id } });
 
       await Promise.all(
-        product.Images.map((image) => this.imagesService.delete(image.id)),
+        images.map((image) => this.imagesService.delete(image.id)),
       );
 
       return product;

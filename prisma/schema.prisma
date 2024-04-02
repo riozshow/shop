@@ -233,11 +233,11 @@ model Tag {
 }
 
 model TagOnProduct {
-  name      String @id
-  productId String
+  name      String  @id
+  productId String?
 
-  Tag     Tag     @relation(fields: [name], references: [name])
-  Product Product @relation(fields: [productId], references: [id])
+  Tag     Tag?     @relation(fields: [name], references: [name], onDelete: Cascade)
+  Product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Image {
@@ -249,8 +249,8 @@ model Image {
   categoryId String?
   isDefault  Boolean?
 
-  Product  Product?  @relation(fields: [productId], references: [id])
-  Discount Discount? @relation(fields: [discountId], references: [id])
-  Coupon   Coupon?   @relation(fields: [couponId], references: [id])
-  Category Category? @relation(fields: [categoryId], references: [id])
+  Product  Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+  Discount Discount? @relation(fields: [discountId], references: [id], onDelete: SetNull)
+  Coupon   Coupon?   @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  Category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 }
